@@ -1,7 +1,11 @@
 ---
-import "../styles/global.css";
+import { Hero } from '../components/Hero';
+import Layout from '../layouts/Layout.astro';
 ---
 
-<h1 class="text-3xl font-bold underline">
-  SLB sexy ahhh
-</h1>
+<Layout
+  title="SLB Designs — Custom Snowboard & Skateboard Wraps | Boston, MA"
+  description="SLB Designs creates custom snowboard and skateboard vinyl wraps based in Boston, MA. Email spencelbco@gmail.com."
+>
+  <Hero client:load />
+</Layout>
