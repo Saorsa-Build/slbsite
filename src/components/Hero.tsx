@@ -21,19 +21,12 @@ const Hero = ({ className }: Hero79Props) => {
         <div className="flex items-end justify-between">
           <div className="flex w-full flex-col gap-8 md:w-2/3">
             <h1 className="text-6xl font-medium text-foreground md:text-[5.8rem]">
-              Create your own fiber optics facility
+              Carve your style into every run
             </h1>
             <p className="text-xl text-foreground md:text-2xl">
-              CableCore Partnership. Worldwide network. Regional manufacturing
+              Custom board wraps by Spencer Berry
             </p>
           </div>
-          <Button
-            variant="ghost"
-            className="hidden items-center gap-2 text-foreground hover:bg-transparent md:flex"
-          >
-            <span className="text-2xl">Read More</span>
-            <ArrowDown className="size-6!" />
-          </Button>
         </div>
       </div>
     </section>

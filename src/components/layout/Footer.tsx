@@ -1,5 +1,5 @@
 "use client";
-import { Facebook, Github, Linkedin, Twitter } from "lucide-react";
+import { Instagram } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -7,19 +7,7 @@ import { Badge } from "@/components/ui/badge";
 
 const SOCIAL_LINKS = [
   {
-    icon: Github,
-    href: "#",
-  },
-  {
-    icon: Linkedin,
-    href: "#",
-  },
-  {
-    icon: Facebook,
-    href: "#",
-  },
-  {
-    icon: Twitter,
+    icon: Instagram,
     href: "#",
   },
 ];

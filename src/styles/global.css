@@ -3,7 +3,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital%2Cwght@0%2C400..900;1%2C400..900&display=swap");
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap');
 
-
 @import "tailwindcss";
 
 @plugin "@tailwindcss/typography";
@@ -502,22 +501,20 @@
       opacity: 0;
     }
   }
-
   @keyframes marquee {
-    0% {
-      transform: translateX(0%);
+  from {
+    transform: translateX(0);
     }
-    100% {
-      transform: translateX(-100%);
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
     }
   }
-
   @keyframes marquee-vertical {
-    from {
-      transform: translateY(0);
+  from {
+    transform: translateY(0);
     }
-    to {
-      transform: translateY(calc(-100% - var(--gap)));
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
     }
   }
 
@@ -758,4 +755,3 @@ body[data-scroll-locked] {
 @custom-variant data-active (&:is([data-state="active"], [data-active="true"]));
 @custom-variant data-checked (&:is([data-state="checked"], [data-checked="true"]));
 @custom-variant data-unchecked (&:is([data-state="unchecked"], [data-unchecked="true"]));
-

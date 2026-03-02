@@ -1,5 +1,8 @@
 ---
-import { Hero } from '../components/Hero';
+import { Hero } from '@/components/Hero';
+import { Gallery } from '@/components/Gallery'
+import { ShopPreview } from '@/components/ShopPreview'
+import { Reviews23 } from '@/components/Reviews'
 import Layout from '../layouts/Layout.astro';
 ---
 
@@ -8,4 +11,7 @@ import Layout from '../layouts/Layout.astro';
   description="SLB Designs creates custom snowboard and skateboard vinyl wraps based in Boston, MA. Email spencelbco@gmail.com."
 >
   <Hero client:load />
+  <Gallery />
+  <ShopPreview />
+  <Reviews23 />
 </Layout>
