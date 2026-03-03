@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 const SOCIAL_LINKS = [
   {
     icon: Instagram,
-    href: "#",
+    href: "https://www.instagram.com/spencelb_/",
   },
 ];
 
@@ -14,8 +14,8 @@ const NAVIGATION = [
   {
     title: "Company",
     links: [
-      { name: "About Us", href: "/about" },
-      { name: "Portfolio", href: "/portfolio" },
+      //{ name: "About Us", href: "/about" },
+      //{ name: "Portfolio", href: "/portfolio" },
       { name: "Shop", href: "/products" },
       { name: "Contact", href: "/contact" },
     ],

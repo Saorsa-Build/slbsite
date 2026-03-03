@@ -2,8 +2,8 @@
 
 import {
   ChevronRight,
-  Grid,
-  Info,
+  //Grid,
+  //Info,
   Menu,
   X,
 } from "lucide-react";
@@ -65,23 +65,23 @@ const LOGO = {
 };
 
 const NAVIGATION: MenuItem[] = [
-  {
-    title: "Company",
-    links: [
-      {
-        label: "About Us",
-        url: "/about",
-        description: "Our mission & values",
-        icon: { component: Info, color: "#f59e0b" },
-      },
-      {
-        label: "Portfolio",
-        url: "/portfolio",
-        description: "See our work",
-        icon: { component: Grid, color: "#6366f1" },
-      },
-    ],
-  },
+  // {
+  //   title: "Company",
+  //   links: [
+  //     {
+  //       label: "About Us",
+  //       url: "/about",
+  //       description: "Our mission & values",
+  //       icon: { component: Info, color: "#f59e0b" },
+  //     },
+  //     {
+  //       label: "Portfolio",
+  //       url: "/portfolio",
+  //       description: "See our work",
+  //       icon: { component: Grid, color: "#6366f1" },
+  //     },
+  //   ],
+  // },
   {
     title: "Products",
     url: "/products",
