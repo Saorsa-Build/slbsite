@@ -35,7 +35,7 @@ type ReviewType = {
 type ReviewCardType = ReviewType;
 
 interface Reviews23Props {
-  reviews: ReviewType[];
+  reviews?: ReviewType[];
   className?: string;
 }
 
@@ -43,7 +43,7 @@ const REVIEWS: ReviewType[] = [
   {
     author: {
       image: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-1.webp",
-      name: "Jenny W.",
+      name: "Joe Habel",
       verifiedBuyer: true,
     },
     comment:
@@ -59,7 +59,7 @@ const REVIEWS: ReviewType[] = [
   {
     author: {
       image: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-3.webp",
-      name: "Jenny W.",
+      name: "Ethan Walker",
       verifiedBuyer: true,
     },
     comment:
