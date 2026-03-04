@@ -39,7 +39,7 @@ interface ContactFormProps {
 const ContactForm = ({
   title = "Let's Talk",
   subtitle = 'Have a project in mind? We would love to hear from you.',
-  email = 'spencelbco@gmail.com',
+  email = 'spencerbrry@gmail.com',
   address = 'Boston, MA',
   className,
 }: ContactFormProps) => {
