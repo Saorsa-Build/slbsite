@@ -125,7 +125,7 @@ const ShopPreview = ({ className }: { className?: string }) => {
                 return (
                   <a
                     key={product.id}
-                    href={`/${product.handle}`}
+                    href={`/products/${product.handle}`}
                     className="group relative flex flex-col border border-border bg-muted/60 p-2 cursor-pointer transition-colors hover:border-foreground"
                   >
                     {image && (

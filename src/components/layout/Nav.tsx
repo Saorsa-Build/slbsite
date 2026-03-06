@@ -5,11 +5,13 @@ import {
   //Grid,
   //Info,
   Menu,
+  ShoppingBag,
   X,
 } from "lucide-react";
 import { Fragment, useEffect, useState } from "react";
 
 import { cn } from "@/lib/utils";
+import { useCartStore } from "@/store/cartStore";
 
 import {
   Accordion,
@@ -28,6 +30,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
+import { CartDrawer } from "@/components/cart/CartDrawer";
 
 interface MenuLink {
   label: string;
@@ -100,6 +103,8 @@ interface NavProps {
 
 const Nav = ({ className }: NavProps) => {
   const [open, setOpen] = useState<boolean>(false);
+  const { openCart, lines } = useCartStore();
+  const itemCount = lines.reduce((acc, line) => acc + line.quantity, 0);
 
   useEffect(() => {
     const handleResize = () => {
@@ -124,7 +129,6 @@ const Nav = ({ className }: NavProps) => {
       >
         <div className="container h-16">
           <div className="flex h-full items-center justify-between">
-            {/* Left: Logo */}
             <a
               href={LOGO.url}
               className="flex max-h-8 items-center gap-2 text-lg font-semibold tracking-tighter"
@@ -139,8 +143,7 @@ const Nav = ({ className }: NavProps) => {
               </span>
             </a>
 
-            {/* Right: Desktop nav + mobile hamburger */}
-            <div className="flex items-center">
+            <div className="flex items-center gap-2">
               <NavigationMenu className="hidden lg:flex" viewport={false}>
                 <NavigationMenuList>
                   {NAVIGATION.map((item, index) => (
@@ -152,6 +155,18 @@ const Nav = ({ className }: NavProps) => {
                   ))}
                 </NavigationMenuList>
               </NavigationMenu>
+
+              <button
+                onClick={openCart}
+                className="relative flex items-center justify-center p-2 text-foreground"
+              >
+                <ShoppingBag className="size-5" />
+                {itemCount > 0 && (
+                  <span className="absolute -right-1 -top-1 flex size-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                    {itemCount}
+                  </span>
+                )}
+              </button>
 
               <div className="lg:hidden">
                 <Button
@@ -171,6 +186,7 @@ const Nav = ({ className }: NavProps) => {
         </div>
       </section>
       <MobileNavigationMenu open={open} />
+      <CartDrawer />
     </Fragment>
   );
 };

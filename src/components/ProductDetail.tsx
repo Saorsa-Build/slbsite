@@ -4,6 +4,7 @@ import { ArrowLeftIcon, ShoppingBagIcon } from "lucide-react";
 import React, { useState } from "react";
 
 import { cn } from "@/lib/utils";
+import { useCartStore } from "@/store/cartStore";
 
 interface ProductOption {
   name: string;
@@ -57,20 +58,19 @@ const ProductDetail = ({ product }: { product: Product }) => {
   const variants = product.variants.edges.map((e) => e.node);
   const options = product.options;
 
+  const { addItem } = useCartStore();
+
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>(
-    () =>
-      Object.fromEntries(options.map((o) => [o.name, o.values[0]]))
+    () => Object.fromEntries(options.map((o) => [o.name, o.values[0]]))
   );
   const [adding, setAdding] = useState(false);
   const [added, setAdded] = useState(false);
 
-  // Find matching variant for selected options
-  const selectedVariant = variants.find((v) =>
-    v.selectedOptions.every(
-      (opt) => selectedOptions[opt.name] === opt.value
-    )
-  ) ?? variants[0];
+  const selectedVariant =
+    variants.find((v) =>
+      v.selectedOptions.every((opt) => selectedOptions[opt.name] === opt.value)
+    ) ?? variants[0];
 
   const price = selectedVariant
     ? formatPrice(selectedVariant.price.amount, selectedVariant.price.currencyCode)
@@ -84,58 +84,15 @@ const ProductDetail = ({ product }: { product: Product }) => {
     setAdding(true);
 
     try {
-      // Create or retrieve cart from localStorage
-      let cartId = localStorage.getItem("shopify_cart_id");
-
-      if (!cartId) {
-        // Create a new cart
-        const createCartRes = await fetch(
-          `https://${import.meta.env.PUBLIC_SHOPIFY_STORE_DOMAIN}/api/2024-01/graphql.json`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "X-Shopify-Storefront-Access-Token":
-                import.meta.env.PUBLIC_SHOPIFY_STOREFRONT_TOKEN,
-            },
-            body: JSON.stringify({
-              query: `mutation {
-                cartCreate(input: {
-                  lines: [{ merchandiseId: "${selectedVariant.id}", quantity: 1 }]
-                }) {
-                  cart {
-                    id
-                    checkoutUrl
-                  }
-                }
-              }`,
-            }),
-          }
-        );
-        const cartData = await createCartRes.json();
-        cartId = cartData.data.cartCreate.cart.id;
-        localStorage.setItem("shopify_cart_id", cartId!);
-      } else {
-        // Add to existing cart
-        await fetch(
-          `https://${import.meta.env.PUBLIC_SHOPIFY_STORE_DOMAIN}/api/2024-01/graphql.json`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "X-Shopify-Storefront-Access-Token":
-                import.meta.env.PUBLIC_SHOPIFY_STOREFRONT_TOKEN,
-            },
-            body: JSON.stringify({
-              query: `mutation {
-                cartLinesAdd(cartId: "${cartId}", lines: [{ merchandiseId: "${selectedVariant.id}", quantity: 1 }]) {
-                  cart { id }
-                }
-              }`,
-            }),
-          }
-        );
-      }
+      await addItem({
+        merchandiseId: selectedVariant.id,
+        quantity: 1,
+        title: product.title,
+        variantTitle: selectedVariant.title,
+        price: selectedVariant.price.amount,
+        image: images[0]?.url,
+        handle: product.handle,
+      });
 
       setAdded(true);
       setTimeout(() => setAdded(false), 2000);
@@ -148,9 +105,8 @@ const ProductDetail = ({ product }: { product: Product }) => {
 
   return (
     <div className="container py-12">
-      {/* Back link */}
       <a
-        href="/shop"
+        href="/products"
         className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
       >
         <ArrowLeftIcon className="size-4" />
