@@ -3,7 +3,6 @@
 import { X, Minus, Plus, ShoppingBag } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
 
 const CartDrawer = () => {
   const { isOpen, closeCart, lines, removeItem, updateItem, checkoutUrl, isLoading } = useCartStore();
@@ -18,7 +17,7 @@ const CartDrawer = () => {
     <Sheet open={isOpen} onOpenChange={(open) => !open && closeCart()}>
       <SheetContent
         side="right"
-        className="dark flex h-full w-full flex-col bg-background p-0 sm:max-w-md"
+        className="dark flex h-full w-full flex-col bg-background p-0 sm:max-w-md [&>button]:hidden"
       >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-border px-6 py-4">
@@ -48,7 +47,7 @@ const CartDrawer = () => {
         ) : (
           <>
             {/* Cart lines */}
-            <div className="flex-1 overflow-y-auto px-6 py-6">
+            <div className="min-h-0 flex-1 overflow-y-auto px-6 py-6">
               <ul className="flex flex-col divide-y divide-border">
                 {lines.map((line) => (
                   <li key={line.id} className="flex gap-4 py-5 first:pt-0">
@@ -131,9 +130,12 @@ const CartDrawer = () => {
               </p>
               <a
                 href={checkoutUrl ?? "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => closeCart()}
                 className={`flex w-full items-center justify-center border px-6 py-4 font-display text-sm font-medium uppercase tracking-widest transition-colors ${
                   isLoading || !checkoutUrl
-                    ? "cursor-not-allowed border-border text-muted-foreground"
+                    ? "pointer-events-none border-border text-muted-foreground"
                     : "border-foreground bg-foreground text-background hover:bg-background hover:text-foreground"
                 }`}
               >
