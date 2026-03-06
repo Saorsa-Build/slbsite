@@ -40,9 +40,11 @@ const Footer = ({ className }: FooterProps) => {
         <div className="flex w-full flex-col justify-between gap-y-24 lg:flex-row">
           <div className="flex shrink-0 grow-0 basis-auto flex-col items-start justify-start gap-6">
             <a href="/">
-              <span className="text-lg font-semibold tracking-tighter text-foreground">
-                SLB Designs
-              </span>
+              <img
+                src="/SLB.png"
+                alt="SLB Designs"
+                className="h-10 w-auto"
+              />
             </a>
             <p className="w-full max-w-xs text-base leading-normal text-muted-foreground md:text-lg">
               Custom snowboard and skateboard vinyl wraps, based in Boston, MA.
@@ -82,7 +84,7 @@ const Footer = ({ className }: FooterProps) => {
         </div>
         <div className="flex flex-col justify-between gap-y-4 md:flex-row">
           <div className="text-sm font-medium text-muted-foreground">
-            © 2025 SLB Designs
+            © 2026 SLB Designs
           </div>
           <div className="text-sm font-medium text-muted-foreground">
             Designed & built by{" "}

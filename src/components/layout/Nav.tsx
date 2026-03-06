@@ -59,9 +59,9 @@ interface MenuSubLinkProps {
 
 const LOGO = {
   url: "/",
-  src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/block-1.svg",
+  src: "/SLB.png",
   alt: "logo",
-  title: "SLB Designs",
+  title: "",
 };
 
 const NAVIGATION: MenuItem[] = [
@@ -132,7 +132,7 @@ const Nav = ({ className }: NavProps) => {
               <img
                 src={LOGO.src}
                 alt={LOGO.alt}
-                className="inline-block size-8 invert"
+                className="inline-block h-10 w-auto"
               />
               <span className="hidden text-foreground md:inline-block">
                 {LOGO.title}
