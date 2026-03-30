@@ -93,6 +93,10 @@ const NAVIGATION: MenuItem[] = [
     title: "Contact",
     url: "/contact",
   },
+  {
+    title: "Waitlist",
+    url: "https://spences-newsletter-6d7ab9.beehiiv.com/?utm_source=ig&utm_medium=social&utm_content=link_in_bio",
+  },
 ];
 
 const MOBILE_BREAKPOINT = 1024;

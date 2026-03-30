@@ -23,7 +23,7 @@ const Hero = ({ className }: Hero174Props) => {
                 Carve your style into every run
               </h1>
               <p className="text-center text-lg text-balance text-foreground md:text-2xl">
-                Custom board wraps by Spencer Berry
+                Wraps and clothing by Spencer Berry
               </p>
               <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
                 <Button
