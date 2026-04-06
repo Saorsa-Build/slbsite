@@ -1,8 +1,7 @@
 "use client";
 
 import { ArrowRightIcon } from "lucide-react";
-import { useEffect, useState } from "react";
-
+import { Fragment, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 const domain = import.meta.env.PUBLIC_SHOPIFY_STORE_DOMAIN;
@@ -92,8 +91,6 @@ const ProductsPage = ({ className }: { className?: string }) => {
       .then((data) => {
         setProducts(data);
         setFiltered(data);
-
-        // Build filter list from productType
         const types = Array.from(
           new Set(data.map((p) => p.productType).filter(Boolean))
         );
@@ -105,128 +102,200 @@ const ProductsPage = ({ className }: { className?: string }) => {
 
   const handleFilter = (filter: string) => {
     setActiveFilter(filter);
-    if (filter === "All") {
-      setFiltered(products);
-    } else {
-      setFiltered(products.filter((p) => p.productType === filter));
-    }
+    setFiltered(filter === "All" ? products : products.filter((p) => p.productType === filter));
   };
 
   return (
-    <section className={cn("py-24", className)}>
-      <div className="container">
+    <Fragment>
+      <div
+        className={cn("relative w-full min-h-screen bg-zinc-950 overflow-hidden", className)}
+        style={{ fontFamily: "'DM Sans', system-ui, sans-serif" }}
+      >
+        {/* Orange glow */}
+        <div className="absolute -top-32 -left-32 w-[600px] h-[600px] bg-orange-600/8 rounded-full blur-[120px] pointer-events-none" />
 
-        {/* Header */}
-        <div className="mb-12 flex flex-col gap-4 border-b border-border pb-8">
-          <h1 className="font-display text-4xl font-semibold uppercase tracking-tight text-foreground md:text-5xl">
-            Products
-          </h1>
-          <p className="font-text text-sm text-muted-foreground">
-            Custom snowboard and skateboard vinyl wraps, based in Boston, MA.
-          </p>
+        {/* Diagonal accent stripes */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
+          <div
+            className="absolute -left-10 top-0 h-full w-[3px] bg-white/5"
+            style={{ transform: "rotate(12deg) translateX(120px)" }}
+          />
+          <div
+            className="absolute -left-10 top-0 h-full w-[1px] bg-white/10"
+            style={{ transform: "rotate(12deg) translateX(160px)" }}
+          />
         </div>
 
-        {/* Filters */}
-        {!loading && filters.length > 1 && (
-          <div className="mb-10 flex flex-wrap gap-2">
-            {filters.map((filter) => (
-              <button
-                key={filter}
-                onClick={() => handleFilter(filter)}
-                className={cn(
-                  "border px-4 py-1.5 font-display text-xs uppercase tracking-widest transition-colors",
-                  activeFilter === filter
-                    ? "border-foreground bg-foreground text-background"
-                    : "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
-                )}
+        {/* Top border */}
+        <div className="absolute top-0 left-0 right-0 h-[1px] bg-white/5" />
+
+        <div className="relative z-10 mx-auto w-full max-w-5xl px-4 py-12 sm:py-20">
+
+          {/* Header */}
+          <div className="flex flex-col gap-3 mb-10 sm:mb-14">
+            <div className="flex items-center gap-2">
+              <span className="inline-block h-2 w-2 rounded-full bg-orange-500" />
+              <span
+                className="text-xs tracking-[0.25em] text-orange-500 uppercase"
+                style={{ fontWeight: 600 }}
               >
-                {filter}
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* Error */}
-        {error && (
-          <p className="text-center text-sm text-destructive">{error}</p>
-        )}
-
-        {/* Grid */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {loading
-            ? Array.from({ length: 9 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="flex animate-pulse flex-col border border-border bg-muted/60 p-2"
-                >
-                  <div className="h-72 w-full bg-muted" />
-                  <div className="mt-3 flex items-center justify-between gap-3 px-2 pb-3">
-                    <div className="space-y-2">
-                      <div className="h-3 w-24 rounded bg-muted" />
-                      <div className="h-6 w-16 rounded bg-muted" />
-                    </div>
-                    <div className="size-12 bg-muted" />
-                  </div>
-                </div>
-              ))
-            : filtered.map((product) => {
-                const image = product.images.edges[0]?.node;
-                const { amount, currencyCode } =
-                  product.priceRange.minVariantPrice;
-
-                return (
-                  <a
-                    key={product.id}
-                    href={`/products/${product.handle}`}
-                    className="group relative flex cursor-pointer flex-col border border-border bg-muted/60 p-2 transition-colors hover:border-foreground"
-                  >
-                    {image ? (
-                      <img
-                        src={image.url}
-                        alt={image.altText ?? product.title}
-                        className="h-72 w-full object-cover"
-                      />
-                    ) : (
-                      <div className="flex h-72 w-full items-center justify-center bg-muted">
-                        <span className="font-text text-xs text-muted-foreground">
-                          No image
-                        </span>
-                      </div>
-                    )}
-                    <div className="mt-3 flex items-center justify-between gap-3 px-2 pb-3">
-                      <div>
-                        <p className="font-text text-sm tracking-tighter text-muted-foreground">
-                          {product.title}
-                        </p>
-                        <h3 className="font-display text-2xl font-semibold tracking-tight text-foreground">
-                          {formatPrice(amount, currencyCode)}
-                        </h3>
-                      </div>
-                      <div className="flex size-12 items-center justify-center border border-border bg-muted/10 transition-colors group-hover:bg-foreground group-hover:text-background">
-                        <ArrowRightIcon className="size-7 -rotate-45 stroke-1" />
-                      </div>
-                    </div>
-                  </a>
-                );
-              })}
-        </div>
-
-        {/* Empty state */}
-        {!loading && filtered.length === 0 && (
-          <div className="flex flex-col items-center justify-center gap-4 py-24 text-center">
-            <p className="font-text text-sm text-muted-foreground">
-              No products found.
-            </p>
-            <button
-              onClick={() => handleFilter("All")}
-              className="border border-border px-6 py-2 font-display text-xs uppercase tracking-widest text-foreground transition-colors hover:bg-foreground hover:text-background"
+                SLB Designs · Boston, MA
+              </span>
+            </div>
+            <h1
+              className="text-left leading-[0.88] text-white"
+              style={{
+                fontSize: "clamp(2.5rem, 12vw, 6rem)",
+                fontFamily: "'Barlow Condensed', 'Arial Narrow', sans-serif",
+                fontWeight: 800,
+                textTransform: "uppercase",
+                letterSpacing: "-0.01em",
+              }}
             >
-              Clear Filter
-            </button>
+              The <span className="text-orange-500">Shop</span>
+            </h1>
+            <p
+              className="text-sm text-white/40 leading-relaxed max-w-sm mt-1"
+              style={{ fontWeight: 400 }}
+            >
+              Custom snowboard and skateboard vinyl wraps, based in Boston, MA.
+            </p>
           </div>
-        )}
+
+          {/* Filters */}
+          {!loading && filters.length > 1 && (
+            <div className="flex flex-wrap gap-2 mb-10">
+              {filters.map((filter) => (
+                <button
+                  key={filter}
+                  onClick={() => handleFilter(filter)}
+                  className={cn(
+                    "px-4 py-1.5 text-xs uppercase tracking-widest transition-all duration-200",
+                    activeFilter === filter
+                      ? "bg-white text-black"
+                      : "border border-white/15 text-white/40 hover:border-white/40 hover:text-white/70"
+                  )}
+                  style={{
+                    fontWeight: 600,
+                    clipPath: "polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%)",
+                  }}
+                >
+                  {filter}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Error */}
+          {error && (
+            <p className="text-sm text-white/30 mb-8">{error}</p>
+          )}
+
+          {/* Grid */}
+          <div className="grid grid-cols-1 gap-4 sm:gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {loading
+              ? Array.from({ length: 9 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="flex flex-col bg-white/5 animate-pulse"
+                    style={{ clipPath: "polygon(0 0, calc(100% - 12px) 0, 100% 100%, 0 100%)" }}
+                  >
+                    <div className="h-72 w-full bg-white/5" />
+                    <div className="p-4 flex items-center justify-between">
+                      <div className="space-y-2">
+                        <div className="h-2.5 w-20 rounded bg-white/10" />
+                        <div className="h-5 w-14 rounded bg-white/10" />
+                      </div>
+                      <div className="size-10 bg-white/10" />
+                    </div>
+                  </div>
+                ))
+              : filtered.map((product) => {
+                  const image = product.images.edges[0]?.node;
+                  const { amount, currencyCode } = product.priceRange.minVariantPrice;
+
+                  return (
+                    <a
+                      key={product.id}
+                      href={`/products/${product.handle}`}
+                      className="group relative flex flex-col bg-white/5 transition-all duration-300 hover:bg-white/10"
+                      style={{
+                        textDecoration: "none",
+                        clipPath: "polygon(0 0, calc(100% - 12px) 0, 100% 100%, 0 100%)",
+                      }}
+                    >
+                      <div className="relative overflow-hidden">
+                        {image ? (
+                          <img
+                            src={image.url}
+                            alt={image.altText ?? product.title}
+                            className="h-72 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                        ) : (
+                          <div className="flex h-72 w-full items-center justify-center bg-white/5">
+                            <span className="text-xs text-white/20 uppercase tracking-widest">No image</span>
+                          </div>
+                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      </div>
+
+                      <div className="flex items-center justify-between gap-3 px-4 py-4">
+                        <div className="flex flex-col gap-0.5">
+                          <p
+                            className="text-xs tracking-[0.1em] text-white/40 uppercase"
+                            style={{ fontWeight: 500 }}
+                          >
+                            {product.title}
+                          </p>
+                          <p
+                            className="text-xl text-white"
+                            style={{
+                              fontFamily: "'Barlow Condensed', 'Arial Narrow', sans-serif",
+                              fontWeight: 700,
+                              letterSpacing: "0.02em",
+                            }}
+                          >
+                            {formatPrice(amount, currencyCode)}
+                          </p>
+                        </div>
+                        <div className="flex size-10 shrink-0 items-center justify-center border border-white/15 text-white/40 transition-all duration-300 group-hover:border-orange-500 group-hover:text-orange-500 group-hover:bg-orange-500/10">
+                          <ArrowRightIcon className="size-4 -rotate-45 stroke-[1.5]" />
+                        </div>
+                      </div>
+                    </a>
+                  );
+                })}
+          </div>
+
+          {/* Empty state */}
+          {!loading && filtered.length === 0 && (
+            <div className="flex flex-col items-center justify-center gap-6 py-24 text-center">
+              <p className="text-sm text-white/30 uppercase tracking-widest" style={{ fontWeight: 500 }}>
+                No products found.
+              </p>
+              <button
+                onClick={() => handleFilter("All")}
+                className="inline-flex items-center gap-2 border border-white/15 px-6 py-2.5 text-white/50 transition-all duration-300 hover:border-white/40 hover:text-white/80"
+                style={{
+                  fontWeight: 600,
+                  fontSize: "0.75rem",
+                  letterSpacing: "0.15em",
+                  textTransform: "uppercase",
+                  clipPath: "polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%)",
+                }}
+              >
+                Clear Filter
+              </button>
+            </div>
+          )}
+
+        </div>
       </div>
-    </section>
+
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap');
+      `}</style>
+    </Fragment>
   );
 };
 

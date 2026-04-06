@@ -1,9 +1,12 @@
 ---
 import { Hero } from '@/components/Hero';
-import { Gallery } from '@/components/Gallery'
-import { ShopPreview } from '@/components/ShopPreview'
-import { Reviews23 } from '@/components/Reviews'
+import { Gallery } from '@/components/Gallery';
+import { ShopPreview } from '@/components/ShopPreview';
+import { Reviews23 } from '@/components/Reviews';
 import Layout from '../layouts/Layout.astro';
+import { Waitlist } from '@/components/Waitlist';
+import { Shipping } from '@/components/Shipping';
+import { Process } from '@/components/Process';
 ---
 
 <Layout
@@ -12,4 +15,7 @@ import Layout from '../layouts/Layout.astro';
 >
   <Hero client:load />
   <ShopPreview client:load />
+  <Shipping client:load />
+  <Process client:load />
+  <Waitlist client:load />
 </Layout>
