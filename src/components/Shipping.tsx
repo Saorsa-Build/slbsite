@@ -67,7 +67,7 @@ const Shipping = ({ className }: ShippingProps) => {
               </h2>
 
               {/* Regions row */}
-              <div className="flex items-center gap-6 mt-1">
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-1">
                 {regions.map(({ flag, label }, i) => (
                   <Fragment key={label}>
                     <div className="flex items-center gap-2">
@@ -80,7 +80,7 @@ const Shipping = ({ className }: ShippingProps) => {
                       </span>
                     </div>
                     {i < regions.length - 1 && (
-                      <span className="text-white/15 text-sm">|</span>
+                      <span className="text-white/15 text-sm hidden sm:inline">|</span>
                     )}
                   </Fragment>
                 ))}
